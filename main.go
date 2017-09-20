@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"flag"
+    "fmt"
+    "flag"
     "strings"
     "path/filepath"
     "os"
@@ -19,7 +19,7 @@ import (
 type fpaths []string
 
 func (ps *fpaths) String() string {
-	return fmt.Sprintf("%v", *ps)
+    return fmt.Sprintf("%v", *ps)
 }
 
 func (ps *fpaths) Set(v string) error {
@@ -27,7 +27,7 @@ func (ps *fpaths) Set(v string) error {
     for _, s := range p {
         *ps = append(*ps, s)
     }
-	return nil
+    return nil
 }
 
 type fileMeta struct {
@@ -61,8 +61,8 @@ var keyops = flag.String("o", "",
               hash  md5 hash of the file`)
 
 func main() {
-	flag.Var(&mydirs, "d", "directory to scan")
-	flag.Parse()
+    flag.Var(&mydirs, "d", "directory to scan")
+    flag.Parse()
 
     if len(mydirs) == 0 {
         mydirs = fpaths{"."}
