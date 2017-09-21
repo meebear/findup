@@ -35,7 +35,7 @@ func main() {
     start := time.Now()
 
     var filesCh = make(chan *fileMeta)
-    for _, dir := range mydirs {
+    for _, dir := range cliops.mydirs {
         wg.Add(1)
         go walkDir(dir, filesCh)
     }
@@ -66,7 +66,7 @@ func main() {
         for {
             select {
             case <-tick.C:
-                fmt.Printf("\r%d files of total %s bytes", numFiles, humanize.Bytes(uint64(totalSize)))
+                fmt.Printf("\r%d files of total %s", numFiles, humanize.Bytes(uint64(totalSize)))
             case <-wait1:
                 done = true
             }
@@ -91,7 +91,7 @@ func main() {
         if len(fms) > 1 {
             nDupFiles += int64(len(fms) - 1)
             nDupBytes += fms[0].size * int64(len(fms) - 1)
-            if *verbose {
+            if *cliops.verbose {
                 fmt.Printf("Dup: (%s)\n", humanize.Bytes(uint64(fms[0].size)))
                 for _, fm := range fms {
                     fmt.Printf("  %s\n", fm.fullpath)
@@ -100,7 +100,7 @@ func main() {
         }
     }
 
-    fmt.Printf("\rScanned %d files of total %s bytes\n", numFiles, humanize.Bytes(uint64(totalSize)))
+    fmt.Printf("\rScanned %d files of total %s\n", numFiles, humanize.Bytes(uint64(totalSize)))
     fmt.Printf("\n%d files (%s) are duplicated\n", nDupFiles, humanize.Bytes(uint64(nDupBytes)))
     fmt.Printf("\nDone. used %v\n", end.Sub(start))
 }
